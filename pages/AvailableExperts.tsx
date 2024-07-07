@@ -14,13 +14,28 @@ const AvailableExperts = () => {
 
     useEffect(() => {
         const fetchExperts = async () => {
-            const res = await fetch('https://chat-app-server-production-d054.up.railway.app/api/auth/experts', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
-            const data = await res.json();
-            setAvailableExperts(data);
+            const token = localStorage.getItem('token');
+
+            if (token) {
+                try {
+                    const res = await fetch('https://chat-app-server-production-d054.up.railway.app/api/auth/experts', {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setAvailableExperts(data);
+                    } else {
+                        console.error('Failed to fetch experts:', res.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching experts:', error);
+                }
+            } else {
+                console.error('Token not found in localStorage');
+                // Handle the case where token is null, maybe redirect to login or handle the error
+            }
         };
 
         fetchExperts();
@@ -29,10 +44,26 @@ const AvailableExperts = () => {
     const selectExpert = (expert: Expert) => {
         localStorage.setItem('selectedExpert', JSON.stringify(expert));
         const token = localStorage.getItem('token');
-        const parsedToken = JSON.parse(atob(token.split('.')[1]));
-        const studentUsername = parsedToken.username;
 
-        router.push(`/chat?student=${encodeURIComponent(studentUsername)}`);
+        if (token) {
+            const tokenParts = token.split('.');
+            if (tokenParts.length === 3) {
+                try {
+                    const parsedToken = JSON.parse(atob(tokenParts[1]));
+                    const studentUsername = parsedToken.username;
+                    router.push(`/chat?student=${encodeURIComponent(studentUsername)}`);
+                } catch (error) {
+                    console.error('Error parsing token:', error);
+                    // Handle parsing error
+                }
+            } else {
+                console.error('Invalid token format');
+                // Handle invalid token format error
+            }
+        } else {
+            console.error('Token not found in localStorage');
+            // Handle the case where token is null, maybe redirect to login or handle the error
+        }
     };
 
     const handleLogout = () => {
