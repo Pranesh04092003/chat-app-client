@@ -3,8 +3,12 @@ import { useRouter } from 'next/router';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+interface MyAppProps {
+    Component: React.ComponentType<any>;
+    pageProps: any;
+}
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: MyAppProps) {
     const router = useRouter();
 
     useEffect(() => {
@@ -12,7 +16,7 @@ function MyApp({ Component, pageProps }) {
         if (!token && router.pathname !== '/') {
             router.push('/');
         }
-    }, []);
+    }, [router.pathname]);
 
     return <Component {...pageProps} />;
 }
