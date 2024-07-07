@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.expertsList {
+  overflow-y: auto;
+  max-height: calc(100vh - 150px);
+  margin-left: 20px;
+  padding: 10px;
+}
+
+.expertItem {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.expertItem:hover {
+  background-color: #e0e0e0;
+}
+
+.expertUsername {
+  font-size: 16px;
+  margin: 0;
+}
+
+.logoutContainer {
+  margin-top: 20px;
+}
+
+.expert-page-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+#students-list {
+  margin-top: 20px;
+}
+
+.student-item {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.student-item:hover {
+  background-color: #f0f0f0;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
