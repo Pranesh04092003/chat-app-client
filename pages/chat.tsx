@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent } from 'react';
 import { useRouter } from 'next/router';
 import io, { Socket } from 'socket.io-client';
 import LogoutButton from '../components/LogoutButton';
+import styles from '../styles/Chat.module.scss'; // Import the CSS module
 
 interface Message {
     _id: string;
     sender: string;
     receiver: string;
     message: string;
+    timestamp: string; // Add timestamp field
 }
 
 interface Expert {
@@ -132,6 +134,7 @@ const Chat = () => {
                 sender: username,
                 receiver: selectedExpert.username,
                 message: message.trim(),
+                timestamp: new Date().toISOString(), // Set timestamp
             };
             if (socket) {
                 socket.emit('message', newMessage);
@@ -144,6 +147,7 @@ const Chat = () => {
                 sender: username,
                 receiver: student as string, // Set the receiver to the student
                 message: message.trim(),
+                timestamp: new Date().toISOString(), // Set timestamp
             };
             if (socket) {
                 socket.emit('message', newMessage);
@@ -162,6 +166,7 @@ const Chat = () => {
                 sender: username,
                 receiver: originalMessage.sender,
                 message: message.trim(),
+                timestamp: new Date().toISOString(), // Set timestamp
             };
             if (socket) {
                 socket.emit('message', replyMessage);
@@ -192,22 +197,30 @@ const Chat = () => {
         return false;
     };
 
+    const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    };
+
     return (
-        <div>
-            <h1>Chat</h1>
+        <div className={styles.chatContainer}>
+            <h1 className={styles.chatHeader}>Chat</h1>
             <LogoutButton onLogout={handleLogout} />
-            {role === 'student' && selectedExpert && <h2>USER PAGE Chatting with {selectedExpert.username}</h2>}
-            {role === 'expert' && student && <h2>EXPERT PAGE Chatting with {student}</h2>}
-            <div>
+            {role === 'student' && selectedExpert && <h2 className={styles.chatSubHeader}>USER PAGE Chatting with {selectedExpert.username}</h2>}
+            {role === 'expert' && student && <h2 className={styles.chatSubHeader}>EXPERT PAGE Chatting with {student}</h2>}
+            <div className={styles.messagesContainer}>
                 {messages.length === 0 ? (
-                    <p>No messages yet</p>
+                    <p className={styles.noMessages}>No messages yet</p>
                 ) : (
                     messages.map((msg, index) => (
                         // Check if the message is relevant to the current chat context
                         (isMessageRelevant(msg) && (
-                            <div key={msg._id || index}>
+                            <div key={msg._id || index} className={styles.message}>
                                 {msg.sender === username ? `${msg.sender}: ` : `${msg.sender}: `}
                                 {msg.message}
+                                {/* Format message timestamp */}
+                                <span className={styles.messageTime}>{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span> {/* Display message time */}
                             </div>
                         ))
                     ))
@@ -218,8 +231,10 @@ const Chat = () => {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={handleKeyPress} // Add key press event
+                className={styles.inputField}
             />
-            <button onClick={sendMessage}>Send</button>
+            <button onClick={sendMessage} className={styles.sendButton}>Send</button>
         </div>
     );
 };
