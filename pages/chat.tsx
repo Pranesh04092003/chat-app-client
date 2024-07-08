@@ -5,12 +5,13 @@ import LogoutButton from '../components/LogoutButton';
 import styles from '../styles/chat.module.scss';
 
 interface Message {
-  _id: string;
+  _id?: string;
   sender: string;
   receiver: string;
   message: string;
   timestamp: string; 
 }
+
 
 interface Expert {
   _id: string;
@@ -85,8 +86,12 @@ const Chat = () => {
         const data = await response.json(); 
         setMessages(data); 
         setLoading(false); // Set loading to false after messages are fetched
-      } catch (error) {
-        setError('Error fetching messages: ' + error.message);
+      } catch (error: unknown) { // Explicitly type or cast error to unknown
+        if (error instanceof Error) {
+          setError('Error fetching messages: ' + error.message);
+        } else {
+          setError('Unknown error fetching messages');
+        }
         setLoading(false); // Set loading to false if there's an error
       }
     };
@@ -123,8 +128,12 @@ const Chat = () => {
       const data = await res.json(); // Parse response to JSON
       setMessages(data); // Set fetched messages to state
       setLoading(false); // Set loading to false after messages are fetched
-    } catch (error) {
-      setError('Error fetching past messages: ' + error.message);
+    } catch (error: unknown) { // Explicitly type or cast error to unknown
+      if (error instanceof Error) {
+        setError('Error fetching past messages: ' + error.message);
+      } else {
+        setError('Unknown error fetching past messages');
+      }
       setLoading(false); // Set loading to false if there's an error
     }
   };
@@ -157,8 +166,12 @@ const Chat = () => {
       } else {
         throw new Error('No expert selected or message typed.');
       }
-    } catch (error) {
-      setError('Error sending message: ' + error.message);
+    } catch (error: unknown) { // Explicitly type or cast error to unknown
+      if (error instanceof Error) {
+        setError('Error sending message: ' + error.message);
+      } else {
+        setError('Unknown error sending message');
+      }
     }
   };
 
@@ -179,8 +192,12 @@ const Chat = () => {
       } else {
         throw new Error('No message typed to reply.');
       }
-    } catch (error) {
-      setError('Error replying to message: ' + error.message);
+    } catch (error: unknown) { // Explicitly type or cast error to unknown
+      if (error instanceof Error) {
+        setError('Error replying to message: ' + error.message);
+      } else {
+        setError('Unknown error replying to message');
+      }
     }
   };
 
@@ -259,7 +276,7 @@ const Chat = () => {
           onChange={(e) => setMessage(e.target.value)} // Handle input change
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              sendMessage(); 
+              sendMessage(); // Call sendMessage on Enter key press
             }
           }}
           placeholder="Type your message..."
@@ -271,5 +288,4 @@ const Chat = () => {
 };
 
 export default Chat;
-
 
