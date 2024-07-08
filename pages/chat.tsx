@@ -80,7 +80,7 @@ const Chat = () => {
             const token = localStorage.getItem('token');
     
             try {
-                const response = await fetch(`http://localhost:5000/api/auth/messages/student?selectedStudent=${encodeURIComponent(student as string)}`, {
+                const response = await fetch(`https://chat-app-server-production-d054.up.railway.app/api/auth/messages/student?selectedStudent=${encodeURIComponent(student as string)}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -102,7 +102,7 @@ const Chat = () => {
     
     const fetchPastMessages = async (username: string, selectedExpert: string, token: string | null) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/auth/messages?username=${username}&selectedExpert=${selectedExpert}`, {
+            const res = await fetch(`https://chat-app-server-production-d054.up.railway.app/api/auth/messages?username=${username}&selectedExpert=${selectedExpert}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
