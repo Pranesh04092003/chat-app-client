@@ -17,7 +17,7 @@ export default function Register() {
 
         if (res.status === 201) {
             alert('Registration successful! Please login.');
-            // router.push('/');
+            
         } else {
             alert('Registration failed');
         }
