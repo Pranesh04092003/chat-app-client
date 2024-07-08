@@ -8,76 +8,87 @@ $link-color: #6366f1;
 $error-color: #e53e3e;
 
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 180px;
-    margin-left: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 300px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 180px auto 0 auto;
 
+  @media (max-width: 768px) {
+    margin: 100px auto 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    margin: 50px auto 0 auto;
+    padding: 15px;
+  }
 }
 
 .form-group {
-    margin-bottom: 15px;
-}
+  margin-bottom: 15px;
 
-.form-group label {
+  label {
     display: block;
     margin-bottom: 5px;
-}
+  }
 
-.form-group input {
+  input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
-}
+  }
 
-.form-group button {
+  button {
     width: 100%;
     padding: 10px;
-    background: #007BFF;
+    background: $primary-color;
     color: #fff;
     border: none;
     cursor: pointer;
-}
 
-.form-group button:hover {
-    background: #0056b3;
+    &:hover {
+      background: $primary-color-dark;
+    }
+  }
 }
 
 .toggle-btn {
-    background: none;
-    border: none;
-    color: #007BFF;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
-}
+  background: none;
+  border: none;
+  color: $link-color;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
 
-.toggle-btn:hover {
+  &:hover {
     text-decoration: underline;
+  }
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .title {
-    margin: 0 0 20px;
-    font-size: 24px;
-    text-align: center;
+  margin: 0 0 20px;
+  font-size: 24px;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 }
 
 .input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .errorMessage {
-    color: red;
-    margin-top: 10px;
+  color: $error-color;
+  margin-top: 10px;
 }
-
