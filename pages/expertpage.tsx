@@ -26,7 +26,11 @@ export default function ExpertPage() {
                 const studentsData = await response.json();
                 setStudents(studentsData);
             } catch (error) {
-                setErrorMessage(error.message);
+                if (error instanceof Error) {
+                    setErrorMessage(error.message);
+                } else {
+                    setErrorMessage('An error occurred');
+                }
             }
         };
 
