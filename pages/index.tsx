@@ -1,8 +1,7 @@
-//index---login and register
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import styles from '../styles/Register.module.scss'; 
+import styles from '../styles/Register.module.scss';
 
 const IndexPage = () => {
   const [username, setUsername] = useState('');
@@ -84,7 +83,7 @@ const IndexPage = () => {
           <p>
             Don't have an account?{' '}
             <Link href="/register" passHref>
-              <span className={styles.link}>Register here</span>
+              <a className={styles.link}>Register here</a>
             </Link>
           </p>
         </div>
