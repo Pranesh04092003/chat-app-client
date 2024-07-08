@@ -49,7 +49,7 @@ const Chat = () => {
 
         // Initialize socket connection only once
         if (!socket) {
-            socket = io('http://localhost:5000', {
+            socket = io('https://chat-app-server-production-d054.up.railway.app', {
                 query: { token },
             });
 
