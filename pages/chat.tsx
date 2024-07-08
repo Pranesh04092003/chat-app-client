@@ -93,7 +93,11 @@ const Chat = () => {
                 const data = await response.json();
                 setMessages(data);
             } catch (error) {
-                console.error('Error fetching messages:', error.message);
+                if (error instanceof Error) {
+                    console.error('Error fetching messages:', error.message);
+                } else {
+                    console.error('Unexpected error fetching messages');
+                }
             }
         };
     
@@ -113,13 +117,18 @@ const Chat = () => {
             const data = await res.json();
             setMessages(data);
         } catch (error) {
-            console.error('Error fetching past messages:', error.message);
+            if (error instanceof Error) {
+                console.error('Error fetching past messages:', error.message);
+            } else {
+                console.error('Unexpected error fetching past messages');
+            }
         }
     };
 
     const sendMessage = () => {
         if (selectedExpert && message.trim() !== '') {
             const newMessage: Message = {
+                _id: '',
                 sender: username,
                 receiver: selectedExpert.username,
                 message: message.trim(),
@@ -131,6 +140,7 @@ const Chat = () => {
             setMessage('');
         } else if (role === 'expert' && message.trim() !== '') {
             const newMessage: Message = {
+                _id: '',
                 sender: username,
                 receiver: student as string, // Set the receiver to the student
                 message: message.trim(),
@@ -148,6 +158,7 @@ const Chat = () => {
     const handleExpertReply = (originalMessage: Message) => {
         if (message.trim() !== '') {
             const replyMessage: Message = {
+                _id: '',
                 sender: username,
                 receiver: originalMessage.sender,
                 message: message.trim(),
@@ -180,7 +191,6 @@ const Chat = () => {
         }
         return false;
     };
-    
 
     return (
         <div>
